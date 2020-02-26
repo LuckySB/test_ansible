@@ -1,0 +1,19 @@
+- hosts: all
+  name: Test fail
+  gather_facts: false
+  any_errors_fatal: "{{ fatal }}"
+#  any_errors_fatal: true
+#  any_errors_fatal: false
+#  max_fail_percentage: 0
+  vars:
+    fatal: false
+  tasks:
+    - debug:
+        msg: Fatal is set to "{{ fatal }}"
+
+    - fail:
+        msg: triggering a failure
+      when: "inventory_hostname == 'master-3.s000005.slurm.io'"
+
+    - debug:
+        msg: I should still run on other hosts
